@@ -206,7 +206,7 @@ And click Run
 
 And with that, you obtained root
 
-![](https://github.com/Red-Bugs/Internal-ctf/blob/912fb2e2911487b88137cccf52c9dc5ab801cf88/Screenshot%202025-12-09%20205307.png)
+![](https://github.com/Red-Bugs/Internal_CTF/blob/6fc1d321b69cf5acaec10fd8f5fb40737b8c4e40/Screenshot%202025-12-09%20205522.png)
 
 Then, congratulations on completing it!
 
