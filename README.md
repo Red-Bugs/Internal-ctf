@@ -7,7 +7,8 @@
 
 ![](222b3e855f88a482c1267748f76f90e0.jpeg)
 
-### 1. Prepare the IP
+### At first
+Prepare the IP
 ```
 sudo nano /etc/hosts
 ```
