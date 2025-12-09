@@ -190,3 +190,4 @@ And with that, you obtained root
 ![](https://github.com/Red-Bugs/Internal-ctf/blob/912fb2e2911487b88137cccf52c9dc5ab801cf88/Screenshot%202025-12-09%20205307.png)
 
 Then, congratulations on completing it!
+HelloWorld ( ' printf ' ) ;
