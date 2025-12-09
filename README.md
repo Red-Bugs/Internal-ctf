@@ -72,12 +72,15 @@ Finished
 ```
 
 We will access /blog
+
 ![](https://github.com/Red-Bugs/Internal-ctf/blob/72311f2b3961ab492f0f545890cc0c86d5cafc79/Screenshot%202025-12-07%20214654.png)
 
 When we scroll down, we find a login page
+
 ![](https://github.com/Red-Bugs/Internal-ctf/blob/72311f2b3961ab492f0f545890cc0c86d5cafc79/Screenshot%202025-12-07%20214916.png)
 
 After we access it and try to log in, we see that it first verifies the username, and this error appears
+
 ![](https://github.com/Red-Bugs/Internal-ctf/blob/72311f2b3961ab492f0f545890cc0c86d5cafc79/Screenshot%202025-12-07%20215219.png)
 
 So we will guess the username using tools like Hydra, WPScan, or Burp Suite, but I’ll use the easiest one
@@ -103,18 +106,23 @@ This gives us the username, so we will guess the password
 ![](https://github.com/Red-Bugs/Internal-ctf/blob/72311f2b3961ab492f0f545890cc0c86d5cafc79/Screenshot%202025-12-08%20145053.png)
 
 And finally, we logged in successfully
+
 ![](https://github.com/Red-Bugs/Internal-ctf/blob/069c96cbaaff2d79826e8178f1735d71d2cf77b8/1_l-GlDWbhwfVFEOaJ5-bEmg.png)
 
 We go to 'The email is correct' and then to 'Appearance'
+
 ![](https://github.com/Red-Bugs/Internal-ctf/blob/069c96cbaaff2d79826e8178f1735d71d2cf77b8/Screenshot%202025-12-08%20154649.png)
 
 Then we go to the Theme Editor
+
 ![](https://github.com/Red-Bugs/Internal-ctf/blob/069c96cbaaff2d79826e8178f1735d71d2cf77b8/Screenshot%202025-12-08%20155152.png)
 
 Then to index.php
+
 ![](https://github.com/Red-Bugs/Internal-ctf/blob/069c96cbaaff2d79826e8178f1735d71d2cf77b8/Screenshot%202025-12-08%20155421.png)
 
 We place reverse-shell.php in the PHP code section
+
 ![](https://github.com/Red-Bugs/Internal-ctf/blob/069c96cbaaff2d79826e8178f1735d71d2cf77b8/Screenshot%202025-12-08%20155529.png)
 
 And after you put the modified PHP code, we click Update File.
@@ -127,13 +135,16 @@ Here’s an example of the URL: http://internal.thm/blog/index.php
 . You can access any page where it runs, like index.php
 
 And after we get the reverse shell, we go to /opt
+
 ![](https://github.com/Red-Bugs/Internal-ctf/blob/a3a8f7f8c30c08048f5c1dd45b5aae701cab6318/Screenshot%202025-12-09%20203614.png)
-And this is the SSH username and password, so we will log in through SSH.
+And this is the SSH username and password, so we will log in through SSH
+
 ```
 ┌──(kali㉿kali)-[~/Downloads/THM]  
 └─$ ssh aubreanna@10.49.182.209
 ```
 And after connecting, we will do:
+
 ![](https://github.com/Red-Bugs/Internal-ctf/blob/a3a8f7f8c30c08048f5c1dd45b5aae701cab6318/Screenshot%202025-12-08%20162835.png)
 ```
 aubreanna@internal:~$ cat jenkins.txt                             
@@ -141,16 +152,19 @@ Internal Jenkins service is running on 172.17.0.2:8080
 aubreanna@internal:~$
 ```
 This means we can tunnel the internal Jenkins service on localhost port 8080, and we can do that through SSH
+
 ```
 ┌──(kali㉿kali)-[~/Downloads/THM]  
 └─$ ssh -L 8080:localhost:8080 aubreanna@10.49.182.209
 
 ```
 And after that, we’ll run localhost:8080, and if it doesn’t work, open localhost without specifying the port
+
 ![](https://github.com/Red-Bugs/Internal-ctf/blob/a3a8f7f8c30c08048f5c1dd45b5aae701cab6318/Screenshot%202025-12-08%20164101.png)
 
 The first thing we’ll do there is look for the default Jenkins user, and we’ll find **admin**
 And we’ll try to guess the password using Burp Suite. After opening the Burp Suite browser, we’ll follow these steps — and of course, make the request after step 1
+
 ![](https://github.com/Red-Bugs/Internal-ctf/blob/a3a8f7f8c30c08048f5c1dd45b5aae701cab6318/Screenshot%202025-12-08%20165637.png)
 
 ![](https://github.com/Red-Bugs/Internal-ctf/blob/a3a8f7f8c30c08048f5c1dd45b5aae701cab6318/Screenshot%202025-12-08%20165919.png)
@@ -165,15 +179,18 @@ Then run the attack
 ![](https://github.com/Red-Bugs/Internal-ctf/blob/a3a8f7f8c30c08048f5c1dd45b5aae701cab6318/Screenshot%202025-12-08%20184132.png)
 
 After you click on Length, you’ll notice a big difference between the correct and incorrect passwords, then log in
+
 ![](https://github.com/Red-Bugs/Internal-ctf/blob/0fccfe271b64bde9518481bfdf6a75f5e929c504/Screenshot%202025-12-09%20204211.png)
 
 We go here, and then here
+
 ![](https://github.com/Red-Bugs/Internal-ctf/blob/0fccfe271b64bde9518481bfdf6a75f5e929c504/Screenshot%202025-12-09%20204243.png)
 
 ![](https://github.com/Red-Bugs/Internal-ctf/blob/0fccfe271b64bde9518481bfdf6a75f5e929c504/Screenshot%202025-12-09%20204307.png)
 
 You’ll find the programming language is Groovy script
  Search for a Groovy reverse-shell code and place it there after modifying it
+ 
 ![](https://github.com/Red-Bugs/Internal-ctf/blob/0fccfe271b64bde9518481bfdf6a75f5e929c504/Screenshot%202025-12-09%20204353.png)
 
 And before clicking Run, start nc
@@ -184,9 +201,11 @@ listening on [any] 9001 ...
 ```
 
 And click Run
+
 ![](https://github.com/Red-Bugs/Internal-ctf/blob/aeb9fcd3c0ebce543c2b62204d40a4527261e507/Screenshot%202025-12-09%20205307.png)
 
 And with that, you obtained root
+
 ![](https://github.com/Red-Bugs/Internal-ctf/blob/912fb2e2911487b88137cccf52c9dc5ab801cf88/Screenshot%202025-12-09%20205307.png)
 
 Then, congratulations on completing it!
